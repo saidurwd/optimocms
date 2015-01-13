@@ -98,5 +98,14 @@ class UserGroup extends CActiveRecord {
         $link = CHtml::link('<span class="label label-important arrowed-in">Set Access</span>', array('acl/edit', 'id' => $id), array('data-rel' => 'tooltip', 'title' => 'Set group permission!', 'data-placement' => 'top'));
         return $link;
     }
+    
+    public static function get_group_title($id) {
+        $value = UserGroup::model()->findByAttributes(array('id' => $id));
+        if (empty($value->title)) {
+            return null;
+        } else {
+            return $value->title;
+        }
+    }
 
 }

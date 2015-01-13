@@ -27,6 +27,7 @@ if ($model->isNewRecord) {
 <?php echo $form->textFieldControlGroup($model, 'controller', array('span' => 5, 'maxlength' => 50)); ?>
 <?php echo $form->textFieldControlGroup($model, 'url', array('span' => 5, 'maxlength' => 100)); ?>
 <?php echo $form->textFieldControlGroup($model, 'icon', array('span' => 5, 'maxlength' => 50)); ?>
+<?php echo $form->dropDownListControlGroup($model, 'group', CHtml::listData(UserGroup::model()->findAll(array('condition' => '')), 'id', 'title'), array('multiple' => true, 'class' => 'span5')); ?>
 <div class="row-fluid">
     <div class="span2">
         <?php echo $form->textFieldControlGroup($model, 'ordering', array('span' => 12)); ?>

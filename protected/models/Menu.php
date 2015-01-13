@@ -34,9 +34,10 @@ class Menu extends CActiveRecord {
             array('title', 'length', 'max' => 150),
             array('controller, icon', 'length', 'max' => 50),
             array('url', 'length', 'max' => 100),
+            array('group', 'length', 'max' => 250),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, parent, title, controller, url, icon, ordering, status', 'safe', 'on' => 'search'),
+            array('id, parent, title, controller, url, icon, ordering, status, group', 'safe', 'on' => 'search'),
         );
     }
 
@@ -63,6 +64,7 @@ class Menu extends CActiveRecord {
             'icon' => 'Icon',
             'ordering' => 'Ordering',
             'status' => 'Status',
+            'group' => 'Groups',
         );
     }
 
@@ -91,6 +93,7 @@ class Menu extends CActiveRecord {
         $criteria->compare('icon', $this->icon, true);
         $criteria->compare('ordering', $this->ordering);
         $criteria->compare('status', $this->status);
+        $criteria->compare('group', $this->group);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -158,7 +161,7 @@ class Menu extends CActiveRecord {
         $parent1 = Yii::app()->db->createCommand()
                 ->select('*')
                 ->from('{{menu}}')
-                ->where('parent=0 AND status=1')
+                ->where('parent=0 AND status=1 AND INSTR(`group`,' . Yii::app()->user->group . ') > 0')
                 ->order('ordering,title ASC')
                 ->queryAll();
         echo '<ul class="nav nav-list">';
@@ -172,7 +175,7 @@ class Menu extends CActiveRecord {
             $parent2 = Yii::app()->db->createCommand()
                     ->select('*')
                     ->from('{{menu}}')
-                    ->where('parent=' . $values1["id"] . ' AND status=1')
+                    ->where('parent=' . $values1["id"] . ' AND status=1 AND INSTR(`group`,' . Yii::app()->user->group . ') > 0')
                     ->order('ordering,title ASC')
                     ->queryAll();
             if (count($parent2) > 0) {
@@ -187,7 +190,7 @@ class Menu extends CActiveRecord {
                     $parent3 = Yii::app()->db->createCommand()
                             ->select('*')
                             ->from('{{menu}}')
-                            ->where('parent=' . $values2["id"] . ' AND status=1')
+                            ->where('parent=' . $values2["id"] . ' AND status=1 AND INSTR(`group`,' . Yii::app()->user->group . ') > 0')
                             ->order('ordering,title ASC')
                             ->queryAll();
                     if (count($parent3) > 0) {
@@ -330,6 +333,20 @@ class Menu extends CActiveRecord {
         } else {
             return null;
         }
+    }
+    
+    public static function get_groups($groups) {
+        $exval = explode(',', $groups);
+        $total = count($exval);
+        $group = '';
+        for ($i = 0; $i < $total; $i++) {
+            if ($i == ($total - 1)) {
+                $group .= UserGroup::get_group_title($exval[$i]);
+            } else {
+                $group .= UserGroup::get_group_title($exval[$i]) . ', ';
+            }
+        }
+        return $group;
     }
 
     public static function get_count_parent($menu_id) {

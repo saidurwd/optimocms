@@ -65,6 +65,7 @@ class MenuController extends BackEndController {
 
         if (isset($_POST['Menu'])) {
             $model->attributes = $_POST['Menu'];
+            $model->group = implode(",", (array) $model->attributes['group']);
             if ($model->save()) {
                 $this->redirect(array('view', 'id' => $model->id));
             }
@@ -88,10 +89,14 @@ class MenuController extends BackEndController {
 
         if (isset($_POST['Menu'])) {
             $model->attributes = $_POST['Menu'];
+            $model->group = implode(",", (array) $model->attributes['group']);
             if ($model->save()) {
                 $this->redirect(array('view', 'id' => $model->id));
             }
         }
+
+        if (isset($model->group))
+            $model->group = explode(',', $model->group);
 
         $this->render('update', array(
             'model' => $model,

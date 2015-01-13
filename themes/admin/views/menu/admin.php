@@ -71,6 +71,12 @@ $('.search-form form').submit(function(){
                         'htmlOptions' => array('style' => "text-align:center;width:50px;", 'title' => 'Ordering'),
                     ),
                     array(
+                        'name' => 'group',
+                        'type' => 'raw',
+                        'value' => 'Menu::get_groups($data->group)',
+                        'htmlOptions' => array('style' => "text-align:left;", 'title' => 'Groups'),
+                    ),
+                    array(
                         'name' => 'status',
                         'value' => '$data->status?Yii::t(\'app\',\'Active\'):Yii::t(\'app\', \'Inactive\')',
                         'filter' => CHtml::activeDropDownList($model, 'status', array('' => Yii::t('app', 'All'), '0' => Yii::t('app', 'Inactive'), '1' => Yii::t('app', 'Active')), array('style' => 'width:100px')),

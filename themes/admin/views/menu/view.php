@@ -47,6 +47,11 @@ $this->breadcrumbs = array(
                     'icon',
                     'ordering',
                     array(
+                        'name' => 'group',
+                        'type' => 'raw',
+                        'value' => Menu::get_groups($model->group),
+                    ),
+                    array(
                         'name' => 'status',
                         'value' => $model->status ? "Active" : "Inactive",
                     ),
