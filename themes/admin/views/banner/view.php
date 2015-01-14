@@ -33,12 +33,22 @@ $this->breadcrumbs = array(
                         'type' => 'raw',
                         'value' => Banner:: getCategoryName($model->catid),
                     ),
-                    'name',
-                    'alias',
+					array(
+                        'name' => 'name',
+                        'type' => 'raw',
+                        'value' => $model->name,
+                        'htmlOptions' => array('style' => "text-align:left;"),
+                    ),
+					array(
+                        'name' => 'alias',
+                        'type' => 'raw',
+                        'value' => $model->alias,
+                        'htmlOptions' => array('style' => "text-align:left;"),
+                    ),
                     array(
                         'name' => 'banner',
                         'type' => 'raw',
-                        'value' => CHtml::image('uploads/banners/' . $model->banner),
+                        'value' => CHtml::image(Yii::app()->baseUrl . '/uploads/banners/' . $model->banner, $model->name, array('class' => '', 'title' => $model->name)),
                     ),
                     'clickurl',
                     array(
