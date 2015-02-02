@@ -5,18 +5,15 @@
  *
  * The followings are the available columns in table '{{massmail}}':
  * @property string $id
- * @property integer $user_group
- * @property integer $user_status
  * @property string $subject
  * @property string $message_body
  * @property integer $created_by
  * @property string $created_on
  * @property integer $modified_by
  * @property string $modified_on
- * @property integer $send_by
- * @property string $send_on
  */
 class Massmail extends CActiveRecord {
+	public $groups;
 
     /**
      * Returns the static model of the specified AR class.
@@ -42,12 +39,12 @@ class Massmail extends CActiveRecord {
         // will receive user inputs.
         return array(
             array('subject, message_body, created_on', 'required'),
-            array('user_group, user_status, created_by, modified_by, send_by', 'numerical', 'integerOnly' => true),
+            array('created_by, modified_by', 'numerical', 'integerOnly' => true),
             array('subject', 'length', 'max' => 250),
-            array('modified_on, send_on, created_by', 'safe'),
+            array('modified_on, created_by', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, user_group, user_status, subject, message_body, created_by, created_on, modified_by, modified_on, send_by, send_on', 'safe', 'on' => 'search'),
+            array('id, subject, message_body, created_by, created_on, modified_by, modified_on', 'safe', 'on' => 'search'),
         );
     }
 
@@ -67,16 +64,12 @@ class Massmail extends CActiveRecord {
     public function attributeLabels() {
         return array(
             'id' => 'ID',
-            'user_group' => 'User Group',
-            'user_status' => 'User Status',
             'subject' => 'Subject',
             'message_body' => 'Message Body',
             'created_by' => 'Created By',
             'created_on' => 'Created On',
             'modified_by' => 'Modified By',
             'modified_on' => 'Modified On',
-            'send_by' => 'Send By',
-            'send_on' => 'Send On',
         );
     }
 
@@ -92,16 +85,12 @@ class Massmail extends CActiveRecord {
         $criteria->alias = 't';
 
         $criteria->compare('t.id', $this->id, true);
-        $criteria->compare('t.user_group', $this->user_group);
-        $criteria->compare('t.user_status', $this->user_status);
         $criteria->compare('t.subject', $this->subject, true);
         $criteria->compare('t.message_body', $this->message_body, true);
         $criteria->compare('t.created_by', $this->created_by);
         $criteria->compare('t.created_on', $this->created_on, true);
         $criteria->compare('t.modified_by', $this->modified_by);
         $criteria->compare('t.modified_on', $this->modified_on, true);
-        $criteria->compare('t.send_by', $this->send_by);
-        $criteria->compare('t.send_on', $this->send_on, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -128,7 +117,7 @@ class Massmail extends CActiveRecord {
     }
 
     public static function get_mail_send($id) {
-        $link = CHtml::link('<span class="label label-large label-pink arrowed-right">Send</span>', array('massmail/send', 'id' => $id), array('data-rel' => 'tooltip', 'title' => 'Send mail!', 'data-placement' => 'top'));
+        $link = CHtml::link('<span class="label label-large label-pink arrowed-right"><i class="icon-envelope"></i> Send</span>', array('massmail/send', 'id' => $id), array('data-rel' => 'tooltip', 'title' => 'Send Mail', 'data-placement' => 'top'));
         return $link;
     }
 

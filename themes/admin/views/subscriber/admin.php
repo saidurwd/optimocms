@@ -28,10 +28,13 @@ $('.search-form form').submit(function(){
             <a data-action="close" href="#"><i class="icon-remove"></i></a>
         </div>
         <div class="widget-toolbar">
-            <?php echo CHtml::link('<i class="icon-plus"></i>', array('create'), array('data-rel' => 'tooltip', 'title' => 'Add', 'data-placement' => 'bottom')); ?>
-        </div>
+            <?php echo CHtml::link('<i class="icon-random"></i>', array('synchronize'), array('class' => '', 'data-rel' => 'tooltip', 'title' => 'Synchronize Users', 'data-placement' => 'bottom')); ?>
+        </div>        
         <div class="widget-toolbar">
             <?php echo CHtml::link('<i class="icon-search"></i>', '#', array('class' => 'search-button', 'data-rel' => 'tooltip', 'title' => 'Search', 'data-placement' => 'bottom')); ?>
+        </div>
+        <div class="widget-toolbar">
+            <?php echo CHtml::link('<i class="icon-plus"></i>', array('create'), array('data-rel' => 'tooltip', 'title' => 'Add', 'data-placement' => 'bottom')); ?>
         </div>
     </div><!--/.widget-header -->
     <div class="widget-body">
@@ -49,6 +52,12 @@ $('.search-form form').submit(function(){
                 'dataProvider' => $model->search(),
                 'filter' => $model,
                 'columns' => array(
+                		array(
+                				'name' => 'groups',
+                				'type' => 'raw',
+                				'value' => 'SubscriberGroup::get_groups($data->id)',
+                				'htmlOptions' => array('style' => "text-align:left;"),
+                		),
                     'full_name',
                     array(
                         'name' => 'email',
@@ -71,12 +80,6 @@ $('.search-form form').submit(function(){
                     array(
                         'name' => 'enabled',
                         'value' => '$data->enabled?Yii::t(\'app\',\'Yes\'):Yii::t(\'app\', \'No\')',
-                        'filter' => array('' => Yii::t('app', 'All'), '0' => Yii::t('app', 'No'), '1' => Yii::t('app', 'Yes')),
-                        'htmlOptions' => array('style' => "text-align:center;width:100px;"),
-                    ),
-                    array(
-                        'name' => 'accept',
-                        'value' => '$data->accept?Yii::t(\'app\',\'Yes\'):Yii::t(\'app\', \'No\')',
                         'filter' => array('' => Yii::t('app', 'All'), '0' => Yii::t('app', 'No'), '1' => Yii::t('app', 'Yes')),
                         'htmlOptions' => array('style' => "text-align:center;width:100px;"),
                     ),

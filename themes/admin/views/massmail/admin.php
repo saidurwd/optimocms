@@ -29,20 +29,6 @@ $this->breadcrumbs = array(
                 'dataProvider' => $model->search(),
                 'filter' => $model,
                 'columns' => array(
-                    array(
-                        'name' => 'user_group',
-                        'type' => 'raw',
-                        'value' => 'UserGroup::get_user_group($data->user_group)',
-                        'filter' => CHtml::activeDropDownList($model, 'user_group', CHtml::listData(UserGroup::model()->findAll(array("order" => "title")), 'id', 'title'), array('empty' => 'All')),
-                        'htmlOptions' => array('style' => "text-align:left;", 'title' => 'User Group'),
-                    ),
-                    array(
-                        'name' => 'user_status',
-                        'type' => 'raw',
-                        'value' => 'UserStatus::get_user_status($data->user_status)',
-                        'filter' => CHtml::activeDropDownList($model, 'user_status', CHtml::listData(UserStatus::model()->findAll(array("order" => "status")), 'id', 'status'), array('empty' => 'All')),
-                        'htmlOptions' => array('style' => "text-align:left;", 'title' => 'User Status'),
-                    ),
                     'subject',
                     array(
                         'header' => 'Send',

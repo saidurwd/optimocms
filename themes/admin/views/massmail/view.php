@@ -36,16 +36,6 @@ $this->breadcrumbs = array(
                 'data' => $model,
                 'attributes' => array(
                     'id',
-                    array(
-                        'name' => 'user_group',
-                        'type' => 'raw',
-                        'value' => UserGroup::get_user_group($model->user_group),
-                    ),
-                    array(
-                        'name' => 'user_status',
-                        'type' => 'raw',
-                        'value' => UserStatus::get_user_status($model->user_status),
-                    ),
                     'subject',
                     array(
                         'name' => 'message_body',
@@ -71,16 +61,6 @@ $this->breadcrumbs = array(
                         'name' => 'modified_on',
                         'type' => 'raw',
                         'value' => UserAdmin::get_date_time($model->modified_on),
-                    ),
-                    array(
-                        'name' => 'send_by',
-                        'type' => 'raw',
-                        'value' => UserAdmin::get_user_name($model->send_by),
-                    ),
-                    array(
-                        'name' => 'send_on',
-                        'type' => 'raw',
-                        'value' => UserAdmin::get_date_time($model->send_on),
                     ),
                 ),
             ));

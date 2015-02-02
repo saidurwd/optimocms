@@ -15,7 +15,7 @@ return CMap::mergeArray(
             ),
             'components' => array(
                 // uncomment the following to enable URLs in path-format
-                'urlManager' => array(
+                /*'urlManager' => array(
                     'urlFormat' => 'path',
                     'showScriptName' => true,
                     'urlSuffix' => '.html',
@@ -25,11 +25,12 @@ return CMap::mergeArray(
                         '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                         '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                     ),
-                ),
+                ),*/
             ),
             'params' => array(
                 // this is used in contact page
-                'adminEmail' => 'info@sitename.com',
+                'Companyname' => 'Your Company',
+            	'adminEmail' => 'info@sitename.com',
                 'pageSize' => 10,
             ),
                 )

@@ -39,7 +39,7 @@ class SubscriberController extends BackEndController {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update', 'admin', 'delete'),
+                'actions' => array('create', 'update', 'admin', 'delete', 'synchronize'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -50,6 +50,30 @@ class SubscriberController extends BackEndController {
                 'users' => array('*'),
             ),
         );
+    }
+    
+    /**
+     * Synchronize user from user table
+     */
+    public function actionSynchronize() {
+    	Yii::app()->db->createCommand('SET SESSION group_concat_max_len = 1000000')->execute();
+    	//get all users
+    	$users = User::model()->findAll();
+    	//import from user table
+    	foreach ($users as $key=>$value){
+    		//check this user already exist or not
+    		if (($model = Subscriber::model()->find(array('condition' => 'email="' . trim($value['email']) . '"'))) === null){
+    			$model = new Subscriber;
+    			$model->full_name = trim($value['name']);
+    			$model->email = trim($value['email']);
+    			$model->created_on = new CDbExpression('NOW()');
+    			$model->confirmed = 1;
+    			$model->enabled = 1;
+    			$model->save();
+    		}
+    	}
+    	Yii::app()->user->setFlash('success', 'Subscriber has been Synchronized successfully!');
+    	$this->redirect(array('admin'));
     }
 
     /**
@@ -74,7 +98,10 @@ class SubscriberController extends BackEndController {
 
         if (isset($_POST['Subscriber'])) {
             $model->attributes = $_POST['Subscriber'];
-            $model->key = md5(time());
+            //save groups
+            if (is_array(@$_POST['Subscriber']['groups']))
+            	$model->groups = implode(",", $model->attributes['groups']);
+            
             if ($model->save()) {
                 Yii::app()->user->setFlash('success', 'Subscriber has been created successfully');
                 $this->redirect(array('view', 'id' => $model->id));
@@ -99,12 +126,18 @@ class SubscriberController extends BackEndController {
 
         if (isset($_POST['Subscriber'])) {
             $model->attributes = $_POST['Subscriber'];
-			$model->key = md5(time());
+            //save groups
+            if (is_array(@$_POST['Subscriber']['groups']))
+            	$model->groups = implode(",", $model->attributes['groups']);
+            
             if ($model->save()) {
                 Yii::app()->user->setFlash('success', 'Subscriber has been updated successfully');
                 $this->redirect(array('view', 'id' => $model->id));
             }
         }
+        
+        if (isset($model->groups))
+        	$model->groups = explode(',', $model->groups);
 
         $this->render('update', array(
             'model' => $model,

@@ -401,6 +401,7 @@
         <script type="text/javascript">
             jQuery(function($) {
                 $('[data-rel=tooltip]').tooltip();
+                $(".chosen-select").chosen();
             });
         </script>
     </body>

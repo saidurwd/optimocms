@@ -54,34 +54,35 @@ class MassmailController extends BackEndController {
     }
 
     public function actionSend($id) {
-        $model = $this->loadModel($id);
-        $criteria = '';
-        if (!empty($model->user_group)) {
-            $criteria .= ' AND t.group_id=' . $model->user_group;
-        }
-        if (!empty($model->user_status)) {
-            $criteria .= ' AND t.status=' . $model->user_status;
-        }
-        $mailList = Yii::app()->db->createCommand()
-                ->select('t.email')
-                ->from('{{user}} t')
-                ->where('t.email IS NOT NULL' . $criteria)
-                ->join('{{user_profile}}', 't.id = {{user_profile}}.user_id')
-                ->queryAll();
-
-        $bccList = '';
-        foreach ($mailList as $key => $values) {
-            $bccList .= $values["email"] . ',';
-        }
-        //print $bccList; exit;
-        $to = Yii::app()->params['adminEmail'];
-        $subject = $model->subject;
-        $message = $model->message_body;
-        $fromName = Yii::app()->params['Companyname'];
-        $fromMail = Yii::app()->params['adminEmail'];
-        Massmail::sendMail($to, $subject, $message, $fromName, $fromMail, $bccList);
-        Yii::app()->user->setFlash('success', 'Mail has been sent successfully!');
-        $this->redirect(array('admin'));
+    	$model = $this->loadModel($id);    
+    	
+    	if (isset($_POST['Massmail'])) {    		
+    		$model->attributes = $_POST['Massmail'];
+    		if (!empty($model->groups)) {
+    			//All subscriber
+    			$mailList = Subscriber::model()->find(array('condition' => 'confirmed=1 AND enabled=1'));
+    		} else {
+    			//some condition
+    			$mailList = Subscriber::model()->find(array('condition' => 'email="' . trim($value['email']) . '"'));
+    		}
+    		//get email lists
+    		foreach ($mailList as $key => $values) {
+    			$bccList .= $values["email"] . ',';
+    		}
+    		//send mail
+    		$to = Yii::app()->params['adminEmail'];
+    		$subject = $model->subject;
+    		$message = $model->message_body;
+    		$fromName = Yii::app()->params['Companyname'];
+    		$fromMail = Yii::app()->params['adminEmail'];
+    		Massmail::sendMail($to, $subject, $message, $fromName, $fromMail, $bccList);
+    		Yii::app()->user->setFlash('success', 'Mail has been sent successfully!');
+    		$this->redirect(array('admin'));
+    	}
+    	
+    	$this->render('send', array(
+    			'model' => $model,
+    	));
     }
 
     /**

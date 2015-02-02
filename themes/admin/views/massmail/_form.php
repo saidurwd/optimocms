@@ -19,15 +19,17 @@
     <?php echo $form->errorSummary($model); ?>
     <?php echo $form->textFieldControlGroup($model, 'subject', array('span' => 12, 'maxlength' => 250)); ?>
     <?php echo $form->labelEx($model, 'message_body'); ?>
-    <?php $this->widget('application.extensions.widgets.redactorjs.Redactor', array('model' => $model, 'toolbar' => 'default', 'attribute' => 'message_body', 'editorOptions' => array('autoresize' => true),)); ?>
-    <div class="row-fluid">
-        <div class="span2">
-            <?php echo $form->dropDownListControlGroup($model, 'user_group', CHtml::listData(UserGroup::model()->findAll(array('condition' => '', "order" => "title")), 'id', 'title'), array('empty' => '--please select--', 'class' => 'span12')); ?>
-        </div>
-        <div class="span2">
-            <?php echo $form->dropDownListControlGroup($model, 'user_status', CHtml::listData(UserStatus::model()->findAll(array('condition' => '', "order" => "status")), 'id', 'status'), array('empty' => '--please select--', 'class' => 'span12')); ?>
-        </div>
-    </div>
+    <?php
+        $this->widget('application.extensions.yii-ckeditor.CKEditorWidget', array(
+            'model' => $model,
+            'attribute' => 'message_body',
+            // editor options http://docs.ckeditor.com/#!/api/CKEDITOR.config
+            'config' => array(
+                'language' => 'en',
+            //'toolbar' => 'Basic',
+            ),
+        ));
+        ?>
     <div class="form-actions">
         <?php
         echo TbHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array(
