@@ -13,7 +13,8 @@
  * @property string $modified_on
  */
 class Massmail extends CActiveRecord {
-	public $groups;
+
+    public $groups;
 
     /**
      * Returns the static model of the specified AR class.
@@ -40,7 +41,7 @@ class Massmail extends CActiveRecord {
         return array(
             array('subject, message_body, created_on', 'required'),
             array('created_by, modified_by', 'numerical', 'integerOnly' => true),
-            array('subject', 'length', 'max' => 250),
+            array('subject, groups', 'length', 'max' => 250),
             array('modified_on, created_by', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
@@ -70,6 +71,7 @@ class Massmail extends CActiveRecord {
             'created_on' => 'Created On',
             'modified_by' => 'Modified By',
             'modified_on' => 'Modified On',
+            'groups' => 'Groups',
         );
     }
 

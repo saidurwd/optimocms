@@ -5,9 +5,9 @@
 
 <?php
 $this->pageTitle = 'Subscriber Group details - ' . Yii::app()->name;
-$this->breadcrumbs=array(
-	'Subscriber Groups'=>array('admin'),
-	$model->title,
+$this->breadcrumbs = array(
+    'Subscriber Groups' => array('admin'),
+    $model->title,
 );
 ?>
 <div class="widget-box">
@@ -28,21 +28,25 @@ $this->breadcrumbs=array(
     </div><!--/.widget-header -->
     <div class="widget-body">
         <div class="widget-main">
-		<?php 
-		$this->widget ( 'bootstrap.widgets.TbDetailView', array (
-		    'data'=>$model,
-		    'attributes'=>array(
-				'id',
-				array(
+            <?php
+            $this->widget('bootstrap.widgets.TbDetailView', array(
+                'data' => $model,
+                'attributes' => array(
+                    'id',
+                    array(
                         'name' => 'parent',
                         'type' => 'raw',
                         'value' => SubscriberGroup::get_title($model->parent),
                     ),
-				'title',
-				'details',
-				'status',
-			),
-		)); ?>
-		</div>
+                    'title',
+                    'details',
+                    array(
+                        'name' => 'status',
+                        'value' => $model->status ? "Active" : "Inactive",
+                    ),
+                ),
+            ));
+            ?>
+        </div>
     </div><!--/.widget-body -->
 </div><!--/.widget-box -->

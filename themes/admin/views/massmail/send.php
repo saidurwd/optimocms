@@ -23,35 +23,36 @@ $this->breadcrumbs = array(
     <div class="widget-body">
         <div class="widget-main">
             <?php
-			    $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
-			        'id' => 'massmail-form',
-			        'enableAjaxValidation' => false,
-			    ));
-			    ?>
-			    <?php echo $form->errorSummary($model); ?>
-			    <?php echo $form->dropDownListControlGroup($model, 'groups', CHtml::listData(SubscriberGroup::model()->findAll(array('condition' => 'status=1', 'order' => 'title')), 'id', 'title'), array('multiple' => true, 'class' => 'chosen-select span9', 'data-placeholder' => 'All groups')); ?>
-			    <?php echo $form->textFieldControlGroup($model, 'subject', array('span' => 12, 'maxlength' => 250)); ?>
-			    <?php echo $form->labelEx($model, 'message_body'); ?>
-			    <?php
-			        $this->widget('application.extensions.yii-ckeditor.CKEditorWidget', array(
-			            'model' => $model,
-			            'attribute' => 'message_body',
-			            // editor options http://docs.ckeditor.com/#!/api/CKEDITOR.config
-			            'config' => array(
-			                'language' => 'en',
-			            //'toolbar' => 'Basic',
-			            ),
-			        ));
-			        ?>
-			    <div class="form-actions">
-			        <?php
-			        echo TbHtml::submitButton('Send', array(
-			            'color' => TbHtml::BUTTON_COLOR_PRIMARY,
-			            'size' => TbHtml::BUTTON_SIZE_LARGE,
-			        ));
-			        ?>
-			    </div>
-			    <?php $this->endWidget(); ?>
+            $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+                'id' => 'massmail-form',
+                'enableAjaxValidation' => false,
+            ));
+            ?>
+            <?php echo $form->errorSummary($model); ?>
+            <?php //echo $form->dropDownListControlGroup($model, 'groups', CHtml::listData(SubscriberGroup::model()->findAll(array('condition' => 'status=1', 'order' => 'title')), 'id', 'title'), array('multiple' => true, 'class' => 'chosen-select span9', 'data-placeholder' => 'All groups')); ?>
+            <?php echo $form->dropDownListControlGroup($model, 'groups', CHtml::listData(SubscriberGroup::model()->findAll(array('condition' => 'status=1', 'order' => 'title')), 'id', 'title'), array('empty' => 'All', 'class' => 'span5')); ?>
+            <?php echo $form->textFieldControlGroup($model, 'subject', array('span' => 12, 'maxlength' => 250)); ?>
+            <?php echo $form->labelEx($model, 'message_body'); ?>
+            <?php
+            $this->widget('application.extensions.yii-ckeditor.CKEditorWidget', array(
+                'model' => $model,
+                'attribute' => 'message_body',
+                // editor options http://docs.ckeditor.com/#!/api/CKEDITOR.config
+                'config' => array(
+                    'language' => 'en',
+                //'toolbar' => 'Basic',
+                ),
+            ));
+            ?>
+            <div class="form-actions">
+                <?php
+                echo TbHtml::submitButton('Send', array(
+                    'color' => TbHtml::BUTTON_COLOR_PRIMARY,
+                    'size' => TbHtml::BUTTON_SIZE_LARGE,
+                ));
+                ?>
+            </div>
+            <?php $this->endWidget(); ?>
         </div>
     </div><!--/.widget-body -->
 </div><!--/.widget-box -->
