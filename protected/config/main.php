@@ -1,33 +1,14 @@
 <?php
 
-//Yii::setPathOfAlias('bootstrap', dirname(__FILE__) . '/../extensions/bootstrap');
-//Yii::setPathOfAlias('yiiwheels', dirname(__FILE__) . '/../extensions/yiiwheels');
 return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
-    'name' => 'Optimo CMS',
+    'name' => 'OPTIMO CMS',
     //Default time zone
     'timeZone' => 'Asia/Dhaka',
     //Default source language
     'sourceLanguage' => 'en_us',
     // preloading 'log' component
     'preload' => array('log'),
-    // path aliases
-    'aliases' => array(
-        // yiistrap configuration
-        'bootstrap' => realpath(__DIR__ . '/../extensions/bootstrap'), // change this if necessary
-        // yiiwheels configuration
-        'yiiwheels' => realpath(__DIR__ . '/../extensions/yiiwheels'), // change if necessary
-    ),
-    // autoloading model and component classes
-    'import' => array(
-        'application.models.*',
-        'application.components.*',
-        // import paths - yiistrap configuration
-        'bootstrap.helpers.TbHtml',
-        'bootstrap.helpers.TbArray',
-        'bootstrap.behaviors.TbWidget',
-        'bootstrap.widgets.*'
-    ),
     'modules' => array(
         // uncomment the following to enable the Gii tool
         'gii' => array(
@@ -47,15 +28,6 @@ return array(
     ),
     // application components
     'components' => array(
-        // yiistrap configuration
-        'bootstrap' => array(
-            //'class' => 'bootstrap.components.Bootstrap',
-            'class' => 'bootstrap.components.TbApi',
-        ),
-        // yiiwheels configuration
-        'yiiwheels' => array(
-            'class' => 'yiiwheels.YiiWheels',
-        ),
         'user' => array(
             // enable cookie-based authentication
             'allowAutoLogin' => true,
@@ -66,7 +38,7 @@ return array(
         'session' => array(
             'class' => 'CDbHttpSession',
             'connectionID' => 'db',
-            'sessionName' => 'OPTIMO',
+            'sessionName' => 'OPTIMOCMS',
             'autoCreateSessionTable' => false,
             'sessionTableName' => 'os_yiisession',
             'cookieMode' => 'only',
@@ -105,6 +77,6 @@ return array(
     // using Yii::app()->params['paramName']
     'params' => array(
         // this is used in contact page
-        'adminEmail' => 'info@sitename.com',
+        'adminEmail' => 'info@domain.com',
     ),
 );
