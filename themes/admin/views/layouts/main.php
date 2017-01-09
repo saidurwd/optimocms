@@ -52,7 +52,7 @@
             <div class="navbar-inner">
                 <div class="container-fluid">
                     <?php
-                    $logo = CHtml::image(Yii::app()->baseUrl . '/images/optimosolution_logo.png', Yii::app()->name, array('alt' => Yii::app()->name, 'class' => '', 'title' => Yii::app()->name, 'style' => 'height:23px;'));
+                    $logo = CHtml::image(Yii::app()->theme->baseUrl . '/assets/images/logo.png', Yii::app()->name, array('alt' => Yii::app()->name, 'class' => '', 'title' => Yii::app()->name, 'style' => 'height:23px;'));
                     echo CHtml::link($logo, array('site/index'), array('class' => 'brand', 'data-rel' => 'tooltip', 'title' => Yii::app()->name, 'data-placement' => 'right'));
                     ?>
                     <ul class="nav ace-nav pull-right">
