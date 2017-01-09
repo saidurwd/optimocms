@@ -39,7 +39,7 @@ class ContentCategoryController extends BackEndController {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update', 'admin', 'delete'),
+                'actions' => array('create', 'update', 'admin', 'delete', 'ordering'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -50,6 +50,58 @@ class ContentCategoryController extends BackEndController {
                 'users' => array('*'),
             ),
         );
+    }
+
+    public function actionOrdering() {
+        set_time_limit(0);
+        //for path
+        $parent = ContentCategory::model()->findAll(array('condition' => 'parent_id=0 OR parent_id IS NULL'));
+        foreach ($parent as $key => $values) {
+            Yii::app()->db->createCommand('UPDATE {{content_category}} SET `path` = CONCAT("0.",' . $values["id"] . ') WHERE id=' . (int) $values["id"])->execute();
+        }
+        $parent1 = ContentCategory::model()->findAll(array('condition' => 'parent_id=0 OR parent_id IS NULL'));
+        foreach ($parent1 as $key => $values1) {
+            $parent2 = ContentCategory::model()->findAll(array('condition' => 'parent_id = ' . (int) $values1["id"]));
+            foreach ($parent2 as $key => $values2) {
+                Yii::app()->db->createCommand('UPDATE {{content_category}} SET `path` = CONCAT("' . $values1["path"] . '",".",' . $values2["id"] . ') WHERE id=' . (int) $values2["id"])->execute();
+
+                $parent3 = ContentCategory::model()->findAll(array('condition' => 'parent_id = ' . (int) $values2["id"]));
+                foreach ($parent3 as $key => $values3) {
+                    Yii::app()->db->createCommand('UPDATE {{content_category}} SET `path` = CONCAT("' . $values2["path"] . '",".",' . $values3["id"] . ') WHERE id=' . (int) $values3["id"])->execute();
+
+                    $parent4 = ContentCategory::model()->findAll(array('condition' => 'parent_id = ' . (int) $values3["id"]));
+                    foreach ($parent4 as $key => $values4) {
+                        Yii::app()->db->createCommand('UPDATE {{content_category}} SET `path` = CONCAT("' . $values3["path"] . '",".",' . $values4["id"] . ') WHERE id=' . (int) $values4["id"])->execute();
+                    }
+                }
+            }
+        }
+
+        //for alias
+        $parent = ContentCategory::model()->findAll(array('condition' => 'parent_id=0 OR parent_id IS NULL'));
+        foreach ($parent as $key => $values) {
+            Yii::app()->db->createCommand('UPDATE {{content_category}} SET `alias` = "' . $values["title"] . '" WHERE id=' . (int) $values["id"])->execute();
+        }
+        $parent1 = ContentCategory::model()->findAll(array('condition' => 'parent_id=0 OR parent_id IS NULL'));
+        foreach ($parent1 as $key => $values1) {
+            $parent2 = ContentCategory::model()->findAll(array('condition' => 'parent_id = ' . (int) $values1["id"]));
+            foreach ($parent2 as $key => $values2) {
+                Yii::app()->db->createCommand('UPDATE {{content_category}} SET `alias` = CONCAT("' . $values1["alias"] . '","/","' . $values2["title"] . '") WHERE id=' . (int) $values2["id"])->execute();
+
+                $parent3 = ContentCategory::model()->findAll(array('condition' => 'parent_id = ' . (int) $values2["id"]));
+                foreach ($parent3 as $key => $values3) {
+                    Yii::app()->db->createCommand('UPDATE {{content_category}} SET `alias` = CONCAT("' . $values2["alias"] . '","/","' . $values3["title"] . '") WHERE id=' . (int) $values3["id"])->execute();
+
+                    $parent4 = ContentCategory::model()->findAll(array('condition' => 'parent_id = ' . (int) $values3["id"]));
+                    foreach ($parent4 as $key => $values4) {
+                        Yii::app()->db->createCommand('UPDATE {{content_category}} SET `alias` = CONCAT("' . $values3["alias"] . '","/","' . $values4["title"] . '") WHERE id=' . (int) $values4["id"])->execute();
+                    }
+                }
+            }
+        }
+
+        Yii::app()->user->setFlash('success', "Category ordering was updated successfully.");
+        $this->redirect(array('admin'));
     }
 
     /**
@@ -136,8 +188,7 @@ class ContentCategoryController extends BackEndController {
             // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
             if (!isset($_GET['ajax']))
                 $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-        }
-        else
+        } else
             throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
     }
 
