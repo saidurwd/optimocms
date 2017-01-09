@@ -44,7 +44,7 @@ class BannerCategory extends CActiveRecord {
             array('published, created_by, modified_by', 'numerical', 'integerOnly' => true),
             array('parent_id', 'length', 'max' => 11),
             array('title, alias', 'length', 'max' => 255),
-            array('created_time, modified_time', 'safe'),
+            array('description, created_time, modified_time', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, parent_id, title, alias, description, published, created_by, created_time, modified_by, modified_time', 'safe', 'on' => 'search'),
