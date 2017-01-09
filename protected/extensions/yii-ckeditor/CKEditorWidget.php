@@ -62,7 +62,7 @@ class CKEditorWidget extends CInputWidget {
      */
     public function getAssetsPath()
     {
-        return __DIR__ . '/assets';
+        return __DIR__ . '/ckeditor';
     }
 
     /**

@@ -43,11 +43,11 @@ class ContentCategory extends CActiveRecord {
             array('title', 'required'),
             array('published, created_by, modified_by', 'numerical', 'integerOnly' => true),
             array('parent_id', 'length', 'max' => 11),
-            array('title, alias', 'length', 'max' => 255),
+            array('title, alias, path', 'length', 'max' => 255),
             array('created_time, modified_time,description', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, parent_id, title, alias, description, published, created_by, created_time, modified_by, modified_time', 'safe', 'on' => 'search'),
+            array('id, parent_id, title, alias, description, path, published, created_by, created_time, modified_by, modified_time', 'safe', 'on' => 'search'),
         );
     }
 
@@ -71,6 +71,7 @@ class ContentCategory extends CActiveRecord {
             'title' => 'Title',
             'alias' => 'Alias',
             'description' => 'Description',
+            'path' => 'Path',
             'published' => 'Published',
             'created_by' => 'Created By',
             'created_time' => 'Created Time',
@@ -94,6 +95,7 @@ class ContentCategory extends CActiveRecord {
         $criteria->compare('title', $this->title, true);
         $criteria->compare('alias', $this->alias, true);
         $criteria->compare('description', $this->description, true);
+        $criteria->compare('path', $this->path, true);
         $criteria->compare('published', $this->published);
         $criteria->compare('created_by', $this->created_by);
         $criteria->compare('created_time', $this->created_time, true);
@@ -137,36 +139,36 @@ class ContentCategory extends CActiveRecord {
 
     public static function get_category_new($model, $field) {
         $parent1 = Yii::app()->db->createCommand()
-                ->select('id,parent_id,title')
+                ->select('id,parent_id,title,alias,path')
                 ->from('{{content_category}}')
-                ->where('parent_id=0 AND published=1')
-                ->order('parent_id,title')
+                ->where('(parent_id=0 OR parent_id IS NULL) AND published=1')
+                ->order('path')
                 ->queryAll();
         $option = '<select id="' . $model . '_' . $field . '" name="' . $model . '[' . $field . ']" class="span5">';
-        $option .= '<option value="">--please select--</option>';
+        $option .= '<option value="">Select a Category</option>';
         foreach ($parent1 as $key => $values1) {
             $option .= '<option value="' . $values1["id"] . '" class="text-primary">&Hopf; ' . $values1["title"] . '</option>';
             $parent2 = Yii::app()->db->createCommand()
-                    ->select('id,parent_id,title')
+                    ->select('id,parent_id,title,alias,path')
                     ->from('{{content_category}}')
                     ->where('parent_id=' . $values1["id"] . ' AND published=1')
-                    ->order('title')
+                    ->order('path')
                     ->queryAll();
             foreach ($parent2 as $key => $values2) {
                 $option .= '<option value="' . $values2["id"] . '" class="text-success">&rAarr; ' . $values2["title"] . '</option>';
                 $parent3 = Yii::app()->db->createCommand()
-                        ->select('id,parent_id,title')
+                        ->select('id,parent_id,title,alias,path')
                         ->from('{{content_category}}')
                         ->where('parent_id=' . $values2["id"] . ' AND published=1')
-                        ->order('title')
+                        ->order('path')
                         ->queryAll();
                 foreach ($parent3 as $key => $values3) {
                     $option .= '<option value="' . $values3["id"] . '" class="text-danger">&DoubleRightArrow; ' . $values3["title"] . '</option>';
                     $parent4 = Yii::app()->db->createCommand()
-                            ->select('id,parent_id,title')
+                            ->select('id,parent_id,title,alias,path')
                             ->from('{{content_category}}')
                             ->where('parent_id=' . $values3["id"] . ' AND published=1')
-                            ->order('title')
+                            ->order('path')
                             ->queryAll();
                     foreach ($parent4 as $key => $values4) {
                         $option .= '<option value="' . $values4["id"] . '" class="text-warning">&srarr; ' . $values4["title"] . '</option>';
@@ -181,13 +183,13 @@ class ContentCategory extends CActiveRecord {
 
     public static function get_category_update($model, $field, $id) {
         $parent1 = Yii::app()->db->createCommand()
-                ->select('id,parent_id,title')
+                ->select('id,parent_id,title,alias,path')
                 ->from('{{content_category}}')
                 ->where('parent_id=0 AND published=1')
-                ->order('parent_id,title')
+                ->order('path')
                 ->queryAll();
         $option = '<select id="' . $model . '_' . $field . '" name="' . $model . '[' . $field . ']" class="span5">';
-        $option .= '<option value="">--please select--</option>';
+        $option .= '<option value="">Select a Category</option>';
         foreach ($parent1 as $key => $values1) {
             if ($id == $values1["id"]) {
                 $option .= '<option selected="selected" value="' . $values1["id"] . '" class="text-primary">&Hopf; ' . $values1["title"] . '</option>';
@@ -195,10 +197,10 @@ class ContentCategory extends CActiveRecord {
                 $option .= '<option value="' . $values1["id"] . '" class="text-primary">&Hopf; ' . $values1["title"] . '</option>';
             }
             $parent2 = Yii::app()->db->createCommand()
-                    ->select('id,parent_id,title')
+                    ->select('id,parent_id,title,alias,path')
                     ->from('{{content_category}}')
                     ->where('parent_id=' . $values1["id"] . ' AND published=1')
-                    ->order('title')
+                    ->order('path')
                     ->queryAll();
             foreach ($parent2 as $key => $values2) {
                 if ($id == $values2["id"]) {
@@ -207,10 +209,10 @@ class ContentCategory extends CActiveRecord {
                     $option .= '<option value="' . $values2["id"] . '" class="text-success">&rAarr; ' . $values2["title"] . '</option>';
                 }
                 $parent3 = Yii::app()->db->createCommand()
-                        ->select('id,parent_id,title')
+                        ->select('id,parent_id,title,alias,path')
                         ->from('{{content_category}}')
                         ->where('parent_id=' . $values2["id"] . ' AND published=1')
-                        ->order('title')
+                        ->order('path')
                         ->queryAll();
                 foreach ($parent3 as $key => $values3) {
                     if ($id == $values3["id"]) {
@@ -219,10 +221,10 @@ class ContentCategory extends CActiveRecord {
                         $option .= '<option value="' . $values3["id"] . '" class="text-danger">&DoubleRightArrow; ' . $values3["title"] . '</option>';
                     }
                     $parent4 = Yii::app()->db->createCommand()
-                            ->select('id,parent_id,title')
+                            ->select('id,parent_id,title,alias,path')
                             ->from('{{content_category}}')
                             ->where('parent_id=' . $values3["id"] . ' AND published=1')
-                            ->order('title')
+                            ->order('path')
                             ->queryAll();
                     foreach ($parent4 as $key => $values4) {
                         if ($id == $values4["id"]) {
@@ -256,6 +258,39 @@ class ContentCategory extends CActiveRecord {
             return $val_top . '' . $val_middle . '' . $title->title;
         } else {
             return null;
+        }
+    }
+    
+    public static function getData($id, $field) {
+        $value = ContentCategory::model()->findByAttributes(array('id' => $id));
+        if (empty($value->$field)) {
+            return null;
+        } else {
+            return $value->$field;
+        }
+    }
+
+    public static function update_path($id) {
+        $model = ContentCategory::model()->findByPk($id);
+        if ($model->parent_id == 0 || $model->parent_id === null) {
+            $model->path = '0.' . $model->id;
+            $model->save();
+        } else {
+            $parent = ContentCategory::model()->findByAttributes(array('id' => $model->parent_id));
+            $model->path = $parent->path . '.' . $model->id;
+            $model->save();
+        }
+    }
+
+    public static function update_alias($id) {
+        $model = ContentCategory::model()->findByPk($id);
+        if ($model->parent_id == 0 || $model->parent_id === null) {
+            $model->alias = $model->title;
+            $model->save();
+        } else {
+            $parent = ContentCategory::model()->findByAttributes(array('id' => $model->parent_id));
+            $model->alias = $parent->alias . '/' . $model->title;
+            $model->save();
         }
     }
 
