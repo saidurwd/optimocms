@@ -260,7 +260,7 @@ class ContentCategory extends CActiveRecord {
             return null;
         }
     }
-    
+
     public static function getData($id, $field) {
         $value = ContentCategory::model()->findByAttributes(array('id' => $id));
         if (empty($value->$field)) {
@@ -292,6 +292,24 @@ class ContentCategory extends CActiveRecord {
             $model->alias = $parent->alias . '/' . $model->title;
             $model->save();
         }
+    }
+
+    /*
+     * get total content for specific category
+     */
+
+    public static function getNumberOfContent($id) {
+        $value = Content::model()->findAll(array('condition' => 'catid=' . (int) $id));
+        return count($value);
+    }
+
+    /*
+     * get total sub category for specific category
+     */
+
+    public static function getNumberOfSubCategory($id) {
+        $value = ContentCategory::model()->findAll(array('condition' => 'parent_id=' . (int) $id));
+        return count($value);
     }
 
 }

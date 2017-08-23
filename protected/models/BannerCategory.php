@@ -244,4 +244,22 @@ class BannerCategory extends CActiveRecord {
         return $option;
     }
 
+    /*
+     * get total content for specific category
+     */
+
+    public static function getNumberOfContent($id) {
+        $value = Banner::model()->findAll(array('condition' => 'catid=' . (int) $id));
+        return count($value);
+    }
+
+    /*
+     * get total sub category for specific category
+     */
+
+    public static function getNumberOfSubCategory($id) {
+        $value = BannerCategory::model()->findAll(array('condition' => 'parent_id=' . (int) $id));
+        return count($value);
+    }
+
 }

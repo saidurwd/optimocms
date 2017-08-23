@@ -135,7 +135,12 @@ class BannerCategoryController extends BackEndController {
 
         if (Yii::app()->request->isPostRequest) {
             // we only allow deletion via POST request
-            $this->loadModel($id)->delete();
+            //check if there any dependancy
+            $total_sub_category = BannerCategory::getNumberOfSubCategory($id);
+            $total_content = BannerCategory::getNumberOfContent($id);
+            if ($total_sub_category <= 0 && $total_content <= 0) {
+                $this->loadModel($id)->delete();
+            }
 
             // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
             if (!isset($_GET['ajax']))

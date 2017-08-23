@@ -59,6 +59,12 @@ $('.search-form form').submit(function(){
                     ),
                     'title',
                     array(
+                        'header' => 'Count',
+                        'type' => 'raw',
+                        'value' => 'BannerCategory::getNumberOfContent($data->id)',
+                        'htmlOptions' => array('style' => "text-align:center;", 'title' => 'Total Content'),
+                    ),
+                    array(
                         'name' => 'description',
                         'type' => 'raw',
                         'value' => '$data->description',

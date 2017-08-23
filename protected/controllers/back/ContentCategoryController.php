@@ -183,7 +183,12 @@ class ContentCategoryController extends BackEndController {
 
         if (Yii::app()->request->isPostRequest) {
             // we only allow deletion via POST request
-            $this->loadModel($id)->delete();
+            //check if there any dependancy
+            $total_sub_category = ContentCategory::getNumberOfSubCategory($id);
+            $total_content = ContentCategory::getNumberOfContent($id);
+            if ($total_sub_category <= 0 && $total_content <= 0) {
+                $this->loadModel($id)->delete();
+            }
 
             // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
             if (!isset($_GET['ajax']))
