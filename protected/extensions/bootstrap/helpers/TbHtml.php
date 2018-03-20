@@ -281,6 +281,7 @@ class TbHtml extends CHtml // required in order to access the protected methods 
     const ICON_SIGNAL = 'icon-signal';
     const ICON_COG = 'icon-cog';
     const ICON_TRASH = 'icon-trash';
+    const ICON_TRASH_BTN = 'btn btn-danger btn-mini icon-trash';
     const ICON_HOME = 'icon-home';
     const ICON_FILE = 'icon-file';
     const ICON_TIME = 'icon-time';
@@ -322,6 +323,7 @@ class TbHtml extends CHtml // required in order to access the protected methods 
     const ICON_FACETIME_VIDEO = 'icon-facetime-video';
     const ICON_PICTURE = 'icon-picture';
     const ICON_PENCIL = 'icon-pencil';
+    const ICON_PENCIL_BTN = 'btn btn-warning btn-mini icon-pencil';
     const ICON_MAP_MARKER = 'icon-map-marker';
     const ICON_ADJUST = 'icon-adjust';
     const ICON_TINT = 'icon-tint';
@@ -366,6 +368,7 @@ class TbHtml extends CHtml // required in order to access the protected methods 
     const ICON_LEAF = 'icon-leaf';
     const ICON_FIRE = 'icon-fire';
     const ICON_EYE_OPEN = 'icon-eye-open';
+    const ICON_EYE_OPEN_BTN = 'btn btn-primary btn-mini icon-eye-open';
     const ICON_EYE_CLOSE = 'icon-eye-close';
     const ICON_WARNING_SIGN = 'icon-warning-sign';
     const ICON_PLANE = 'icon-plane';

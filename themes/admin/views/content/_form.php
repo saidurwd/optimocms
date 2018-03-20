@@ -43,7 +43,7 @@ Yii::app()->clientScript->registerScript('search', "
             // editor options http://docs.ckeditor.com/#!/api/CKEDITOR.config
             'config' => array(
                 'language' => 'en',
-            //'toolbar' => 'Basic',
+//                'toolbar' => 'Full',
             ),
         ));
         ?>

@@ -52,15 +52,11 @@ class Controller extends CController {
     }
 
     public function checkAccess($controller, $action) {
-        $val = Yii::app()->db->createCommand()
-                ->select('access')
-                ->from('{{acl}}')
-                ->where('LOWER(controller)="' . $controller . '" AND LOWER(actions)="' . $action . '" AND group_id=' . Yii::app()->user->group . ' AND controller_type=0')
-                ->queryScalar();
-        if (empty($val)) {
+        $val = Acl::model()->findByAttributes(array('controller' => $controller, 'actions' => $action, 'group_id' => Yii::app()->user->group, 'controller_type' => 0));
+        if (!isset($val->access)) {
             $val = 1;
         } else {
-            $val = $val;
+            $val = $val->access;
         }
         return $val;
     }

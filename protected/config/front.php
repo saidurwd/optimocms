@@ -24,7 +24,7 @@ return CMap::mergeArray(
                         ),
                     ),
                 ),
-                // uncomment the following to enable URLs in path-format
+            // uncomment the following to enable URLs in path-format
 //                'urlManager' => array(
 //                    'urlFormat' => 'path',
 //                    'showScriptName' => false,
@@ -38,5 +38,19 @@ return CMap::mergeArray(
 //                ),
             ),
             'theme' => 'default',
+            'params' => array(
+                // this is used in contact page
+                'Companyname' => 'OPTIMO CMS',
+                'adminEmail' => 'info@domain.com',
+                'pageSize' => 25,
+                'pageSize20' => 20,
+                'pageSize30' => 30,
+                'pageSize50' => 50,
+                'pageSize100' => 100,
+                'pageSize200' => 200,
+                'pageSize300' => 300,
+                'pageSize400' => 400,
+                'pageSize500' => 500,
+            ),
                 )
 );

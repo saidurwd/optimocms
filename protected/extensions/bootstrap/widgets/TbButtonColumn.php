@@ -1,4 +1,5 @@
 <?php
+
 /**
  * TbButtonColumn class file.
  * @author Antonio Ramirez <ramirez.cobos@gmail.com>
@@ -7,32 +8,32 @@
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @package bootstrap.widgets
  */
-
 Yii::import('zii.widgets.grid.CButtonColumn');
 
 /**
  * Bootstrap button column widget.
  */
-class TbButtonColumn extends CButtonColumn
-{
+class TbButtonColumn extends CButtonColumn {
+
     /**
      * @var string the view button icon (defaults to TbHtml::ICON_EYE_OPEN).
      */
-    public $viewButtonIcon = TbHtml::ICON_EYE_OPEN;
+    public $viewButtonIcon = TbHtml::ICON_EYE_OPEN_BTN;
+
     /**
      * @var string the update button icon (defaults to TbHtml::ICON_PENCIL).
      */
-    public $updateButtonIcon = TbHtml::ICON_PENCIL;
+    public $updateButtonIcon = TbHtml::ICON_PENCIL_BTN;
+
     /**
      * @var string the delete button icon (defaults to TbHtml::ICON_TRASH).
      */
-    public $deleteButtonIcon = TbHtml::ICON_TRASH;
+    public $deleteButtonIcon = TbHtml::ICON_TRASH_BTN;
 
     /**
      * Initializes the default buttons (view, update and delete).
      */
-    protected function initDefaultButtons()
-    {
+    protected function initDefaultButtons() {
         parent::initDefaultButtons();
 
         if ($this->viewButtonIcon !== false && !isset($this->buttons['view']['icon'])) {
@@ -53,12 +54,10 @@ class TbButtonColumn extends CButtonColumn
      * @param integer $row the row number (zero-based)
      * @param mixed $data the data object associated with the row
      */
-    protected function renderButton($id, $button, $row, $data)
-    {
+    protected function renderButton($id, $button, $row, $data) {
         if (isset($button['visible']) && !$this->evaluateExpression(
-                $button['visible'],
-                array('row' => $row, 'data' => $data)
-            )
+                        $button['visible'], array('row' => $row, 'data' => $data)
+                )
         ) {
             return;
         }
@@ -85,4 +84,5 @@ class TbButtonColumn extends CButtonColumn
             }
         }
     }
+
 }

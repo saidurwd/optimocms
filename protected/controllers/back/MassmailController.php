@@ -36,11 +36,11 @@ class MassmailController extends BackEndController {
     public function accessRules() {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view'),
+                'actions' => array('*'),
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update', 'admin', 'delete', 'send'),
+                'actions' => array('create', 'update', 'admin', 'delete', 'view', 'send'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions

@@ -21,3 +21,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 
 # otherwise forward it to index.php
 RewriteRule . index.php
+
+#Redirect to admin panel
+Redirect /admin /admin.php
+Redirect /backend /admin.php

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Simple Yii CKEditor widget
  * @property string $configJS
@@ -6,8 +7,9 @@
  * @property string $assetsUrl
  * @author Yuriy Firs <firs.yura@gmail.com>
  * @version 0.1.1
- */ 
+ */
 class CKEditorWidget extends CInputWidget {
+
     /**
      * Assets package ID.
      */
@@ -17,17 +19,15 @@ class CKEditorWidget extends CInputWidget {
      * @var array Default config
      */
     public $config = array(
-        // You can set your default config
-        //'language' => 'ru',
+            // You can set your default config
+            //'language' => 'ru',
     );
-
     public $package = array();
 
     /**
      * Init widget.
      */
-    public function init()
-    {
+    public function init() {
         parent::init();
 
         $this->package = array(
@@ -43,47 +43,41 @@ class CKEditorWidget extends CInputWidget {
     /**
      * Register CSS and Script.
      */
-    protected function registerClientScript()
-    {
+    protected function registerClientScript() {
         Yii::app()->clientScript
-            ->addPackage(self::PACKAGE_ID, $this->package)
-            ->registerPackage(self::PACKAGE_ID)->registerScript(
-                $this->id,
-                "CKEDITOR.editorConfig = function( config ) {
-                ".$this->configJS."
-                };",
-                Yii::app()->clientScript->coreScriptPosition
-            );
+                ->addPackage(self::PACKAGE_ID, $this->package)
+                ->registerPackage(self::PACKAGE_ID)->registerScript(
+                $this->id, "CKEDITOR.editorConfig = function( config ) {
+                " . $this->configJS . "
+                };", Yii::app()->clientScript->coreScriptPosition
+        );
     }
 
     /**
      * Get the assets path.
      * @return string
      */
-    public function getAssetsPath()
-    {
+    public function getAssetsPath() {
         return __DIR__ . '/ckeditor';
     }
 
     /**
      * Print activeTextArea
      */
-    public function run()
-    {
+    public function run() {
         // add class ckeditor
         if (array_key_exists('class', $this->htmlOptions) && strpos($this->htmlOptions['class'], 'ckeditor') === false) {
             $this->htmlOptions['class'] .= ' ckeditor';
         } elseif (!array_key_exists('class', $this->htmlOptions))
             $this->htmlOptions['class'] = 'ckeditor';
-        echo CHtml::activeTextArea($this->model,$this->attribute,$this->htmlOptions);
+        echo CHtml::activeTextArea($this->model, $this->attribute, $this->htmlOptions);
     }
 
     /**
      * Publish assets and return url.
      * @return string
      */
-    public function getAssetsUrl()
-    {
+    public function getAssetsUrl() {
         return Yii::app()->assetManager->publish($this->assetsPath);
     }
 
@@ -91,12 +85,12 @@ class CKEditorWidget extends CInputWidget {
      * Convert config array to config string
      * @return string
      */
-    public function getConfigJS()
-    {
+    public function getConfigJS() {
         $return = '';
-        foreach ($this->config as $key=>$value) {
-            $return .= "config.".$key." = ".json_encode($value)."; ";
+        foreach ($this->config as $key => $value) {
+            $return .= "config." . $key . " = " . json_encode($value) . "; ";
         }
         return $return;
     }
+
 }
