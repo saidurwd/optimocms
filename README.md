@@ -13,7 +13,7 @@ To get started, checkout [http://github.com/optimosolution/optimo](http://github
 ## Quick start
 
 Two quick start options are available:
-Step 1: Create database 'optimocms' for zero configuration. Please check configuration file '\protected\config\main.php' for more details.
+Step 1: Create database 'optimocms' for zero configuration and import default database from '\database\optimocms.sql'. Please check configuration file '\protected\config\main.php' for more details.
 Step 2: Admin: Type 'http://hostname/optimocms/admin.php' Access: admin/admin. Frontend: Type 'http://hostname/optimocms/'
 Step 3: Enjoy!!! 
 
