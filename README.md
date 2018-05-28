@@ -1,5 +1,5 @@
 <a href="http://www.optimosolution.com">
-  <img src="https://raw.github.com/optimosolution/optimo/master/images/optimosolution_logo.png" width="337px">
+  <img src="http://www.optimosolution.com/wp-content/uploads/2016/03/optimo_solution_logo.png">
 </a>
 
 # [Optimo v1.0.0](http://github.com/optimosolution/optimo)
@@ -13,6 +13,9 @@ To get started, checkout [http://github.com/optimosolution/optimo](http://github
 ## Quick start
 
 Two quick start options are available:
+Step 1: Create database 'optimocms' for zero configuration. Please check configuration file '\protected\config\main.php' for more details.
+Step 2: Admin: Type 'http://hostname/optimocms/admin.php' Access: admin/admin. Frontend: Type 'http://hostname/optimocms/'
+Step 3: Enjoy!!! 
 
 * [Download the latest release](https://github.com/optimosolution/optimo/zipball/master).
 * Clone the repo: `git clone git://https://github.com/optimosolution/optimo.git`.
