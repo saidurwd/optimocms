@@ -73,5 +73,30 @@ class Controller extends CController {
         $model->visitor_ip = $_SERVER['REMOTE_ADDR'];
         $model->save();
     }
+	
+	public static function limit_text($text, $limit) {
+        if (str_word_count($text, 0) > $limit) {
+            $words = str_word_count($text, 2);
+            $pos = array_keys($words);
+            $text = substr($text, 0, $pos[$limit]) . '...';
+        }
+        return $text;
+    }
+
+    public static function trim_text($text, $count) {
+        $text = str_replace("  ", " ", $text);
+        $string = explode(" ", $text);
+        $trimed = '';
+        for ($wordCounter = 0; $wordCounter <= $count; $wordCounter++) {
+            $trimed .= $string[$wordCounter];
+            if ($wordCounter < $count) {
+                $trimed .= " ";
+            } else {
+                $trimed .= "...";
+            }
+        }
+        $trimed = trim($trimed);
+        return $trimed;
+    }
 
 }
